@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Windows.Media.Capture;
+using Microsoft.Extensions.Logging;
+using SnakeMobileApp.ViewModels;
 
-namespace SnakeMobile
+namespace SnakeMobileApp
 {
     public static class MauiProgram
     {
@@ -14,7 +16,7 @@ namespace SnakeMobile
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
+            Game game = new Game();
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif

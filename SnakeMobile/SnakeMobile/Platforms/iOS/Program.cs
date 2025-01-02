@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace SnakeMobile
+namespace SnakeMobileApp
 {
     public class Program
     {

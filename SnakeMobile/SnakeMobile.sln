@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeMobile", "SnakeMobile\SnakeMobile.csproj", "{D6B0A7A4-DA30-4200-ABE5-4B091E5CCF0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Models", "SnakeGame.Models\SnakeGame.Models.csproj", "{7FCBB8FB-7684-457D-9508-80FA685E9BD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D6B0A7A4-DA30-4200-ABE5-4B091E5CCF0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6B0A7A4-DA30-4200-ABE5-4B091E5CCF0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6B0A7A4-DA30-4200-ABE5-4B091E5CCF0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FCBB8FB-7684-457D-9508-80FA685E9BD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FCBB8FB-7684-457D-9508-80FA685E9BD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FCBB8FB-7684-457D-9508-80FA685E9BD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FCBB8FB-7684-457D-9508-80FA685E9BD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

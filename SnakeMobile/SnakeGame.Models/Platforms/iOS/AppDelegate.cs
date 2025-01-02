@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace SnakeMobileApp
+namespace SnakeMobile.Models
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

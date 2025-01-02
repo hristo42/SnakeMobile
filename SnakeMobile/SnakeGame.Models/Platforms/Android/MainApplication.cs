@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace SnakeMobileApp
+namespace SnakeMobile.Models
 {
     [Application]
     public class MainApplication : MauiApplication
