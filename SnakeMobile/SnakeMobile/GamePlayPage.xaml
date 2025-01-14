@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SnakeMobile.GamePlayPage"
+             Title="GamePlayPage">
+    <VerticalStackLayout>
+        <!-- Game Grid -->
+        <Grid x:Name="GameGrid" 
+              BackgroundColor="Green" 
+              RowSpacing="1"
+              ColumnSpacing="1">
+            <!-- Dynamically populate the grid with rows and columns in the code-behind -->
+        </Grid>
+
+        <Button x:Name="StartBtn" Text="Start" Clicked="OnStartClicked" />
+
+        <!-- Controls -->
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="End" Margin="10">
+
+            <Button x:Name="UpBtn" Text="Up" Clicked="OnUpClicked" />
+            <Button x:Name="DownBtn" Text="Down" Clicked="OnDownClicked" />
+            <Button x:Name="LeftBtn" Text="Left" Clicked="OnLeftClicked" />
+            <Button x:Name="RightBtn" Text="Right" Clicked="OnRightClicked" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>

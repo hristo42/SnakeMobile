@@ -16,7 +16,6 @@ namespace SnakeMobileApp
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-            Game game = new Game();
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif

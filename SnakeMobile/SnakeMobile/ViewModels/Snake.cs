@@ -24,10 +24,10 @@ namespace SnakeMobileApp.ViewModels
         {
             Body = new List<Point>
             {
-                new Point(20, 10),
-                new Point(19, 10),
-                new Point(18, 10),
-                new Point(17, 10)
+                new Point(4, 1),
+                new Point(3, 1),
+                new Point(2, 1),
+                new Point(1, 1)
             };
             directionX = 1;
             directionY = 0;
@@ -48,56 +48,46 @@ namespace SnakeMobileApp.ViewModels
             Head.Y += directionY;
         }
 
-        // Принтиране на змията
-        public void Draw()
+        // Контролиране на движението на змията
+        public void ChangeDirectionUp()
         {
-            foreach (var point in Body)
+            if (directionY == 0)
             {
-                Console.SetCursorPosition(point.X, point.Y);
-                Console.Write("*");
+                directionX = 0;
+                directionY = -1;
             }
         }
 
-        // Контролиране на движението на змията
-        public void ChangeDirection(ConsoleKey key)
+        public void ChangeDirectionDown()
         {
-            switch (key)
+            if (directionY == 0)
             {
-                case ConsoleKey.UpArrow:
-                    if (directionY == 0)
-                    {
-                        directionX = 0;
-                        directionY = -1;
-                    }
-                    break;
-                case ConsoleKey.DownArrow:
-                    if (directionY == 0)
-                    {
-                        directionX = 0;
-                        directionY = 1;
-                    }
-                    break;
-                case ConsoleKey.LeftArrow:
-                    if (directionX == 0)
-                    {
-                        directionX = -1;
-                        directionY = 0;
-                    }
-                    break;
-                case ConsoleKey.RightArrow:
-                    if (directionX == 0)
-                    {
-                        directionX = 1;
-                        directionY = 0;
-                    }
-                    break;
+                directionX = 0;
+                directionY = 1;
+            }
+        }
+        public void ChangeDirectionLeft()
+        {
+            if (directionX == 0)
+            {
+                directionX = -1;
+                directionY = 0;
+            }
+        }
+
+        public void ChangeDirectionRight()
+        {
+            if (directionX == 0)
+            {
+                directionX = 1;
+                directionY = 0;
             }
         }
 
         // Разтеж на змията
         public void Grow()
         {
-            Point newTail = new Point(Body[Body.Count - 1].X, Body[Body.Count - 1].Y);
+            Point newTail = new Point(Body[^1].X, Body[^1].Y);
             Body.Add(newTail);
         }
 
