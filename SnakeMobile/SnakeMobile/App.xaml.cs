@@ -1,4 +1,4 @@
-﻿namespace SnakeMobileApp
+﻿namespace SnakeMobile
 {
     public partial class App : Application
     {

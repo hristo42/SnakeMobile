@@ -1,108 +1,95 @@
-﻿using SnakeMobileApp.ViewModels;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.CompilerServices;
-using Point = SnakeMobileApp.ViewModels.Point;
+using SnakeMobile.ViewModels;
 
 namespace SnakeMobile;
 
 public partial class GamePlayPage : ContentPage
 {
-    private const int Rows = 20;
-    private const int Columns = 40;
-    private double CellSize;
-    List<Point> WallBody = new List<Point>();
-    private Snake Snake = new Snake();
-    private Point CurrentFoodLocation;
-    private IDispatcherTimer GameTimer;
-    private bool FoodEaten=true;
-    private int Score;
-    private bool IsGameOver;
+    private const int rows = 20;
+    private const int columns = 40;
+    private double _cellSize;
+    private readonly Wall _wall = new Wall(rows,columns);
+    private readonly Food _food = new Food(rows, columns);
+    private Snake _snake = new Snake();
+    private IDispatcherTimer _gameTimer;
+    private int _score;
+    private bool _isGameOver = true;
     public GamePlayPage()
     {
         InitializeComponent();
         InitializeGrid();
-        CreateWall();
         PrintWall();
         PrintSnake();
         PrintFood();
+        StartGameLoop();
     }
 
+    // Метод за променяне на размера на клетките според размера на екрана
     private void SetCellSize()
     {
-        var window = Application.Current.MainPage.Window;
-        double windowWidth = window.Width;
-        double windowHeight = window.Height;
-
-        if (0.9 * windowWidth / Columns > 0.9 * windowHeight / (1.5 * Rows))
+        var window = Application.Current.MainPage?.Window;
+        if (window != null)
         {
-            CellSize = 0.9 * windowHeight / (1.5 * Rows);
-        }
-        else
-        {
-            CellSize = 0.9 * windowWidth / Columns;
-        }
+            double windowWidth = window.Width;
+            double windowHeight = window.Height;
 
-        GameGrid.WidthRequest = Columns * CellSize;
-        GameGrid.HeightRequest = Rows * CellSize;
+            if (0.9 * windowWidth / columns > 0.9 * windowHeight / (1.5 * rows))
+            {
+                _cellSize = 0.9 * windowHeight / (1.5 * rows);
+            }
+            else
+            {
+                _cellSize = 0.9 * windowWidth / columns;
+            }
+
+            GameGrid.WidthRequest = columns * _cellSize;
+            GameGrid.HeightRequest = rows * _cellSize;
+        }
     }
 
+    // Създаване на координатната система според зададените размери
     private void InitializeGrid()
     {
-        // Add rows and columns
-        for (int i = 0; i < Rows; i++)
+        for (int i = 0; i < rows; i++)
         {
             GameGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
         }
-        for (int j = 0; j < Columns; j++)
+        for (int j = 0; j < columns; j++)
         {
             GameGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         }
 
         SetCellSize();
-        
     }
 
-    private void PlaceElement(Point point, Color color)
+    // Метод за поставяне на елемент (бутон) на конкретни координати
+    private void PlaceElement(CoordinatePoint point, Color color)
     {
         Button element = new Button()
         {
             BackgroundColor = color
         };
 
-        // Add the element to the Grid
         GameGrid.Children.Add(element);
 
-        // Set its position in the Grid
         Grid.SetColumn(element, point.X);
         Grid.SetRow(element, point.Y);
         
     }
 
-    private void CreateWall()
-    {
-        for (int i = 0; i < Rows; i++)
-        {
-            WallBody.Add(new Point(0, i));
-            WallBody.Add(new Point(Columns - 1, i));
-        }
-        for (int i = 0; i < Columns; i++)
-        {
-            WallBody.Add(new Point(i, 0));
-            WallBody.Add(new Point(i, Rows - 1));
-        }
-    }
-
+    //Принтиране на елементите на координатната система
     private void PrintWall()
     {
-        foreach (var point in WallBody)
+        foreach (var point in _wall.Body)
         {
-            PlaceElement(point,Colors.Black);
+            PlaceElement(point, Colors.Black);
         }
     }
 
     private void PrintSnake()
     {
-        foreach (var point in Snake.Body)
+        foreach (var point in _snake.Body)
         {
             PlaceElement(point, Colors.Blue);
         }
@@ -110,85 +97,85 @@ public partial class GamePlayPage : ContentPage
 
     private void PrintFood()
     {
-        if (FoodEaten)
-        {
-            Random random = new Random();
-            int x = random.Next(1, Columns - 1);
-            int y = random.Next(1, Rows - 1);
-            CurrentFoodLocation = new Point(x, y);
-            FoodEaten = false;
-        }
-
-        PlaceElement(CurrentFoodLocation, Colors.Red);
+        PlaceElement(_food.Location, Colors.Red);
     }
 
+    // Инициализиране на _gameTimer
     private void StartGameLoop()
     {
-        GameTimer = Dispatcher.CreateTimer();
-        GameTimer.Interval = TimeSpan.FromMilliseconds(100);
-        GameTimer.Tick += OnGameTick;
-        GameTimer.Start();
+        _gameTimer = Dispatcher.CreateTimer();
+        _gameTimer.Interval = TimeSpan.FromMilliseconds(100);
+        _gameTimer.Tick += OnGameTick;
+        _gameTimer.Start();
     }
 
     private void OnGameTick(object sender, EventArgs e)
     {
-        // Преместване на змията
-        Snake.Update();
-
-        // Ядене на храна
-        if (Snake.Head.X == CurrentFoodLocation.X && Snake.Head.Y == CurrentFoodLocation.Y)
+        // Проверка дали върви игра
+        if (!_isGameOver)
         {
-            Snake.Grow();
-            FoodEaten = true;
-            Score += 100;
-            ClearGridByColor(Colors.Red);
-            PrintFood();
-            StartBtn.Text = "Score: " + Score;
+
+            // Смяна на координатите на змията
+            _snake.Update();
+
+            // Ядене на храна
+            if (_snake.Head.X == _food.Location.X && _snake.Head.Y == _food.Location.Y)
+            {
+                _snake.Grow();
+                _score += 100;
+                ClearGridByColor(Colors.Red);
+                _food.Spawn(rows,columns);
+                PrintFood();
+                StartBtn.Text = "Score: " + _score;
+            }
+
+            // Сблъсък със стена
+            if (_wall.IsCollidingWithWall(_snake.Head))
+            {
+                _isGameOver = true;
+            }
+
+            // Захапване на опашката
+            if (_snake.IsCollidingWithTail())
+            {
+                _isGameOver = true;
+            }
+
+            // Принтиране на змията на новата позиция
+            ClearGridByColor(Colors.Blue);
+            PrintSnake();
+
+            // При край на играта
+            if (_isGameOver)
+            {
+                UpBtn.IsEnabled = false;
+                DownBtn.IsEnabled = false;
+                LeftBtn.IsEnabled = false;
+                RightBtn.IsEnabled = false;
+                StartBtn.IsEnabled = true;
+                StartBtn.Text = "Final Score: " + _score + ". Try Again?";
+            }
         }
 
-        // Сблъсък със стена
-        if (IsCollidingWithWall(Snake.Head))
-        {
-            IsGameOver = true;
-        }
-
-        // Захапване на опашката
-        if (Snake.IsCollidingWithTail())
-        {
-            IsGameOver = true;
-        }
-
-        ClearGridByColor(Colors.Blue);
-        PrintSnake();
-
-        if (IsGameOver)
-        {
-            UpBtn.IsEnabled = false;
-            DownBtn.IsEnabled = false;
-            LeftBtn.IsEnabled = false;
-            RightBtn.IsEnabled = false;
-            StartBtn.IsEnabled = true;
-            StartBtn.Text = "Score: " + Score + ". Try Again?";
-            GameTimer.Stop();
-            GameTimer.Tick -= OnGameTick;
-        }
+        // Промяна на размера на клетките при промяна на размера на екрана
+        SetCellSize();
 
     }
 
+    // Метод за изтриване на конкретни елементи спред цвят
     private void ClearGridByColor(Color targetColor)
     {
-        // Find all children matching the specified color
         var childrenToRemove = GameGrid.Children
             .Where(child => child is Button button && button.BackgroundColor.Equals(targetColor))
             .ToList();
 
-        // Remove each matching child from the grid
         foreach (var child in childrenToRemove)
         {
             GameGrid.Children.Remove(child);
         }
     }
 
+    // Бутони
     private void OnStartClicked(object sender, EventArgs e)
     {
         UpBtn.IsEnabled = true;
@@ -196,42 +183,30 @@ public partial class GamePlayPage : ContentPage
         LeftBtn.IsEnabled = true;
         RightBtn.IsEnabled = true;
         StartBtn.IsEnabled = false;
-        IsGameOver = false;
-        Score = 0;
+        _isGameOver = false;
+        _score = 0;
         StartBtn.Text = "Score: 0";
-        Snake = new Snake();
-        StartGameLoop();
+        _snake = new Snake();
     }
 
     private void OnUpClicked(object sender, EventArgs e)
     {
-        Snake.ChangeDirectionUp();
+        _snake.ChangeDirectionUp();
     }
 
     private void OnDownClicked(object sender, EventArgs e)
     {
-        Snake.ChangeDirectionDown();
+        _snake.ChangeDirectionDown();
     }
 
     private void OnLeftClicked(object sender, EventArgs e)
     {
-        Snake.ChangeDirectionLeft();
+        _snake.ChangeDirectionLeft();
     }
 
     private void OnRightClicked(object sender, EventArgs e)
     {
-        Snake.ChangeDirectionRight();
+        _snake.ChangeDirectionRight();
     }
 
-    private bool IsCollidingWithWall(Point snakePoint)
-    {
-        foreach (var wallPoint in WallBody)
-        {
-            if (snakePoint.X == wallPoint.X && snakePoint.Y == wallPoint.Y)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 }

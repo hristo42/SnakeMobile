@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SnakeMobileApp.ViewModels
+namespace SnakeMobile.ViewModels
 {
     internal class Snake
     {
-        public List<Point> Body { get; set; }
-        public Point Head
+        public List<CoordinatePoint> Body;
+        public CoordinatePoint Head
         {
             get
             {
@@ -20,14 +20,15 @@ namespace SnakeMobileApp.ViewModels
         private int directionX;
         private int directionY;
 
+        // Създава змия в началото на координатната система
         public Snake()
         {
-            Body = new List<Point>
+            Body = new List<CoordinatePoint>
             {
-                new Point(4, 1),
-                new Point(3, 1),
-                new Point(2, 1),
-                new Point(1, 1)
+                new CoordinatePoint(4, 1),
+                new CoordinatePoint(3, 1),
+                new CoordinatePoint(2, 1),
+                new CoordinatePoint(1, 1)
             };
             directionX = 1;
             directionY = 0;
@@ -87,7 +88,7 @@ namespace SnakeMobileApp.ViewModels
         // Разтеж на змията
         public void Grow()
         {
-            Point newTail = new Point(Body[^1].X, Body[^1].Y);
+            CoordinatePoint newTail = new CoordinatePoint(Body[^1].X, Body[^1].Y);
             Body.Add(newTail);
         }
 

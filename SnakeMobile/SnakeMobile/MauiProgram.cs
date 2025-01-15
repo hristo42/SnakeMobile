@@ -1,8 +1,8 @@
 ﻿using Windows.Media.Capture;
 using Microsoft.Extensions.Logging;
-using SnakeMobileApp.ViewModels;
+using SnakeMobile.ViewModels;
 
-namespace SnakeMobileApp
+namespace SnakeMobile
 {
     public static class MauiProgram
     {

@@ -17,10 +17,10 @@
         <!-- Controls -->
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="End" Margin="10">
 
-            <Button x:Name="UpBtn" Text="Up" Clicked="OnUpClicked" />
-            <Button x:Name="DownBtn" Text="Down" Clicked="OnDownClicked" />
-            <Button x:Name="LeftBtn" Text="Left" Clicked="OnLeftClicked" />
-            <Button x:Name="RightBtn" Text="Right" Clicked="OnRightClicked" />
+            <Button x:Name="UpBtn" IsEnabled="False" Text="Up" Clicked="OnUpClicked" />
+            <Button x:Name="DownBtn" IsEnabled="False" Text="Down" Clicked="OnDownClicked" />
+            <Button x:Name="LeftBtn" IsEnabled="False" Text="Left" Clicked="OnLeftClicked" />
+            <Button x:Name="RightBtn" IsEnabled="False" Text="Right" Clicked="OnRightClicked" />
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>
