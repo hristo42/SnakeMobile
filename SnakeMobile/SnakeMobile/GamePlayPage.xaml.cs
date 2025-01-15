@@ -91,7 +91,7 @@ public partial class GamePlayPage : ContentPage
     {
         foreach (var point in _snake.Body)
         {
-            PlaceElement(point, Colors.Blue);
+            PlaceElement(point, _snake.SnakeColor);
         }
     }
 

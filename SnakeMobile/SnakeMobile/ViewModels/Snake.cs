@@ -17,6 +17,8 @@ namespace SnakeMobile.ViewModels
             }
         }
 
+        public Color SnakeColor = Colors.Blue;
+
         private int directionX;
         private int directionY;
 
