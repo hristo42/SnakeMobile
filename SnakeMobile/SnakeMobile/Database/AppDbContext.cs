@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using SQLite;
 
 namespace SnakeMobile.Database
 {
-    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+    public class DatabaseService
     {
-        public DbSet<User> Users { get; set; }
+        private readonly SQLiteAsyncConnection _connection;
+
+        public DatabaseService(string dbPath)
+        {
+            _connection = new SQLiteAsyncConnection(dbPath);
+            _connection.CreateTableAsync<User>().Wait(); // Ensure the table is created
+        }
+
+        public SQLiteAsyncConnection Connection => _connection;
     }
 }

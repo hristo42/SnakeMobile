@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -6,11 +7,13 @@ using System.Text;
 
 namespace SnakeMobile.Database
 {
-    public class UserRepo(AppDbContext context) : IUserRepo
+    public class UserRepo(DatabaseService databaseService) : IUserRepo
     {
+        private readonly SQLiteAsyncConnection _connection = databaseService.Connection;
+
         public async Task<User> Login(string username, string password)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user = await _connection.Table<User>().FirstOrDefaultAsync(u => u.Username == username);
 
             if (user != null && user.PasswordHash == HashPass(password))
             {
@@ -22,9 +25,13 @@ namespace SnakeMobile.Database
 
         public async Task Register(string username, string password)
         {
-            if (await context.Users.AnyAsync(u => u.Username.Equals(username)))
+            var existingUser = await _connection.Table<User>()
+                .Where(u => u.Username == username)
+                .FirstOrDefaultAsync();
+
+            if (existingUser != null)
             {
-                return;
+                return; // User already exists
             }
 
             var user = new User
@@ -33,8 +40,7 @@ namespace SnakeMobile.Database
                 PasswordHash = HashPass(password)
             };
 
-            await context.Users.AddAsync(user);
-            await context.SaveChangesAsync();
+            await _connection.InsertAsync(user);
         }
         private string HashPass(string pass)
         {

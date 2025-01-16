@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SQLite;
 
 namespace SnakeMobile.Database
 {
     public class User
     {
-        [Key]
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        [Required]
+        [MaxLength(50), NotNull]
         public string Username { get; set; }
         public int Score { get; set; }
-        [Required]
+        [NotNull]
         public string PasswordHash { get; set; }
         public string PreferredSnakeColor { get; set; }
     }

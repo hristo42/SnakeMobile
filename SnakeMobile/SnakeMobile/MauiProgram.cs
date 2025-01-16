@@ -19,12 +19,14 @@ namespace SnakeMobile
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            string connectionString = "Server=localhost;Database=SnakeGameDB;Trusted_Connection=True;";
+            builder.Services.AddSingleton<IUserRepo, UserRepo>();  // Register the UserRepo
+            builder.Services.AddSingleton<LoginPage>();           // Register the LoginPage
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<RegisterPage>();
 
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(connectionString));
-
-            builder.Services.AddSingleton<IUserRepo, UserRepo>();
+            // Register the DatabaseService
+            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "SnakeGame.db3");
+            builder.Services.AddSingleton(new DatabaseService(dbPath)); // Add the DatabaseService with the database path
 
 #if DEBUG
             builder.Logging.AddDebug();

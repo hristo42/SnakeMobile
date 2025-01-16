@@ -5,7 +5,7 @@
              Title="LoginPage">
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to ShowTime game!"
+            Text="Welcome to Snake game!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 

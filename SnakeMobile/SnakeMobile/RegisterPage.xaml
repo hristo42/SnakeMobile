@@ -3,11 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SnakeMobile.RegisterPage"
              Title="RegisterPage">
-    <!--<VerticalStackLayout>
+    <VerticalStackLayout>
         <Entry x:Name="UsernameEntry" Placeholder="Username" TextColor="MidnightBlue" BackgroundColor="{StaticResource PrimaryDark}" Margin="10" />
         <Entry x:Name="PasswordEntry" Placeholder="Password" TextColor="MidnightBlue" BackgroundColor="{StaticResource PrimaryDark}" Margin="10" />
-        <Button Text="Register" Clicked="OnRegisterBtnClicked"/>
-        <Button Text="Login" BackgroundColor="{StaticResource PrimaryDark}" TextColor="MidnightBlue" Clicked="OnLoginBtnClicked" Margin="10" />
-        <Button Text="Register" BackgroundColor="MidnightBlue" TextColor="{StaticResource PrimaryDark}" Clicked="OnRegisterBtnClicked" Margin="100" />
-    </VerticalStackLayout>-->
+        <Button Text="Register" BackgroundColor="{StaticResource PrimaryDark}" TextColor="MidnightBlue" Clicked="OnRegisterBtnClicked" Margin="10" />
+        <Button Text="Login" BackgroundColor="MidnightBlue" TextColor="{StaticResource PrimaryDark}" Clicked="OnLoginBtnClicked" Margin="100" />
+    </VerticalStackLayout>
 </ContentPage>
